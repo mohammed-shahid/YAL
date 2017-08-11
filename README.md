@@ -9,7 +9,7 @@ At master node of the MPI cluster, compile as follows:
 
 /usr/bin/mpicc -lpthread YAL_thread.c YAL_listener.c YAL_main.c -o YAL -lm
 
-Execute as in the following example:
+Now, execute as in the following example:
 
 /usr/bin/mpirun -host master,node001,node002,node003,node004,node005,node006,node007 ./YAL 10
 
@@ -20,5 +20,5 @@ Each lock is coded as YAL_listener.c: in the YAL algorithm, there are N processe
 In this implementation, each YAL_listener accepts MPI-message requests from YAL_thread running on any node to change data structures C, T.
 Each YAL_listener is also responsible for changing the P data structure of the YAL_thread on the node which it is running on.
 Each of the N nodes thus runs a pthread representing a repeatedly CS-entering process, YAL_thread, as well as a listening process YAL_listener (N-1 of these listening processes are also locks of the YAL-tree).
-Each YAL_thread will begin an access procedure to the CS, achieve its turn for the CS, and then exit - to begin another access after a random amount of time.
-The time related settings are manipulable in YAL_thread.c and YAL_main.c.
+Each YAL_thread will begin an access procedure to the CS, achieve its turn for the CS, read and increment a global variable (via MPI), and then exit - to begin another access episode immediately after.
+The global variable is held - communicated to threads and updated via MPI - at node N, as it is lightly loaded owing to no corresponding lock.
