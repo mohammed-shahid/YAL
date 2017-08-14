@@ -23,6 +23,7 @@ Each YAL_listener also changes (due to MPI-message requests from YAL_thread of o
 Each of the N nodes thus runs a pthread representing a repeatedly CS-entering process, YAL_thread, as well as a listening process YAL_listener (N-1 of these listening processes are also locks of the YAL-tree).
 Each YAL_thread will begin an access procedure to the CS, achieve its turn for the CS, read and increment a global variable (via MPI), and then exit - to begin another access episode immediately after.
 The global variable is held, communicated to threads and updated via MPI, at node number (N-1), as it is lightly loaded owing to having no corresponding lock.
+The VERBOSE flag in each of the 3 files can be set to 1 to obtain output indicating - for each node - which variable is set, which level of tree each process is at etc.
 
 Sample output:
 
