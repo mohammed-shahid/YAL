@@ -15,14 +15,15 @@ Now, execute as in the following example:
 
 The above will run the YAL simulation on N=8 nodes for 10 seconds.
 
-Simulation involves N processes repeatedly entering their critical section (CS), each process being coded as the pthread in YAL_thread.c.
-Each lock is coded as the pthread in YAL_listener.c.
+Simulation involves N processes repeatedly entering their critical section (CS), each process being coded as the pthread in YAL\_thread.c.
+Each lock is coded as the pthread in YAL\_listener.c.
 In the YAL algorithm, there are N processes (where N is a power of 2) numbered 0 to N-1 and N-1 locks arranged in a binary contention tree.
-In this implementation, each YAL_listener accepts MPI-message requests from YAL_thread running on any node to change the lock's variables C, T.
-Each YAL_listener also changes (due to MPI-message requests from YAL_thread of other nodes) the P variable of the YAL_thread corresponding to the node which it is running on.
-Each of the N nodes thus runs a pthread representing a repeatedly CS-entering process, YAL_thread, as well as a listening process YAL_listener (N-1 of these listening processes are also locks of the YAL-tree).
-Each YAL_thread will begin an access procedure to the CS, achieve its turn for the CS, read and increment a global variable (via MPI), and then exit - to begin another access episode immediately after.
+In this implementation, each YAL\_listener accepts MPI-message requests from YAL\_thread running on any node to change the lock's variables C, T.
+Each YAL\_listener also changes (due to MPI-message requests from YAL\_thread of other nodes) the P variable of the YAL\_thread corresponding to the node which it is running on.
+Each of the N nodes thus runs a pthread representing a repeatedly CS-entering process, YAL\_thread, as well as a listening process YAL\_listener (N-1 of these listening processes are also locks of the YAL-tree).
+Each YAL\_thread will begin an access procedure to the CS, achieve its turn for the CS, read and increment a global variable (via MPI), and then exit - to begin another access episode immediately after.
 The global variable is held, communicated to threads and updated via MPI, at node number (N-1), as it is lightly loaded owing to having no corresponding lock.
+The TOTAL\_PROCESSES flag has to be set to a suitable N (8, 16, 32 are the values tried so far), such that they are the same value in all 3 files.
 The VERBOSE flag in each of the 3 files can be set to 1 to obtain output indicating - for each node - which variable is set, which level of tree each process is at etc.
 
 Sample output:
