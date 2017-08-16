@@ -6,10 +6,15 @@ Execution occurs on an N-node MPI cluster, which can be built on Amazon Web Serv
 Repository has 4 files: YAL_listener.c, YAL_thread.c and YAL_main.c and a sample config file for starcluster tool.
 
 Commands from the starcluster tutorial that may need to be used:
+
 starcluster start mpicluster
+
 starcluster runplugin mpich2 mpicluster
+
 starcluster sshmaster mpicluster
+
 starcluster put mpicluster YADL*.c /home/ubuntu
+
 starcluster terminate mpicluster
 
 At master node of the MPI cluster, compile as follows:
